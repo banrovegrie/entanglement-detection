@@ -87,14 +87,14 @@ def get_stats(data):
 
 
 def load_data():
-    input_path = f"unitary-{UNITARY_SIZE}x{UNITARY_SIZE}-data-{DATASET_SIZE}.json"
+    input_path = f"separable-{UNITARY_SIZE}x{UNITARY_SIZE}-data-{DATASET_SIZE}.json"
     if path.exists(input_path):
         with open(input_path, "r") as f:
             data = json.load(f)
         return data
     else:
-        unitaries = get_unitaries(DATASET_SIZE, UNITARY_SIZE)
-        non_unitaries = get_non_unitaries(DATASET_SIZE, UNITARY_SIZE)
+        separable = get_unitaries(DATASET_SIZE, UNITARY_SIZE)
+        entangled = get_non_unitaries(DATASET_SIZE, UNITARY_SIZE)
         data = [[unitary, 1] for unitary in unitaries]
         data.extend([[non_unitary, 0] for non_unitary in non_unitaries])
         with open(input_path, "w") as f:
