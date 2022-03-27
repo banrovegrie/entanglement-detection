@@ -1,15 +1,17 @@
-from qutip import *
+import qutip
 import numpy as np
 from matplotlib import pyplot as plt
-from cirq.linalg import is_unitary
 import torch
+import json
+from entanglement_generator import make_circuit
+from params import num_qubits
 
 
 def sign():
     return (-1) ** np.random.randint(2)
 
 
-def make_matrix(n):
+def make_matrix(n=2**num_qubits):
     matrix = np.array(
         sign() * np.random.random(n * n) + sign() * np.random.random(n * n) * 1j
     )
@@ -25,22 +27,15 @@ def embed(matrix):
     return embedding
 
 
-def get_unitaries(num: int, n: int) -> list:
-    unitary_data = []
-    for _ in range(num):
-        u = np.array(rand_unitary(n))
-        unitary_data.append(embed(u))
-    return unitary_data
+def get_separable(num: int, n=2**num_qubits):
+    return []
 
 
-def get_non_unitaries(num: int, n) -> list:
-    non_unitary_data = []
+def get_entangled(num: int, n=2**num_qubits):
+    entangled_matrices = []
+    for i in range(num):
+        entangled_matrices.append(make_circuit())
+    return entangled_matrices
 
-    for _ in range(num):
-        nu = make_matrix(n)
-        if is_unitary(nu):
-            num += 1
-            continue
-        non_unitary_data.append(embed(nu))
-    return non_unitary_data
 
+print(get_entangled(100))
