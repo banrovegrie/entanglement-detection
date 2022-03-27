@@ -1,6 +1,6 @@
 ### Todo list
 
-- [ ]  Old stuff
+- [ ]  Reading background
     - [ ]  2xd → Confirm the solution
     - [x]  3x3 → Has it been solved? Not solved
     - [ ]  Maps for constructing absolutely separable states
