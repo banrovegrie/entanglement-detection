@@ -1,8 +1,8 @@
 ### Todo list
 
 - [ ]  Old stuff
-    - [ ]  $2 \times d$ → Confirm the solution
-    - [x]  $3 \times 3$ → Has it been solved? Not solved
+    - [ ]  2xd → Confirm the solution
+    - [x]  3x3 → Has it been solved? Not solved
     - [ ]  Maps for constructing absolutely separable states
 - [ ]  Entanglement revision
     - [ ]  Entanglement measure → Why not solved entanglement detection?
