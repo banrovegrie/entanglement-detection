@@ -1,6 +1,15 @@
+from data_generator import get_non_unitaries, get_unitaries
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
+from torch.optim import Adam
+import random
+import torch.nn.functional as F
+import numpy as np
+from tqdm import tqdm
+from collections import Counter
+from os import path
+import json
 
 
 class ANNModel(nn.Module):
@@ -42,11 +51,88 @@ class ANNModel(nn.Module):
 
         # Linear function 4 (readout)
         out = self.fc4(out)
-        return out
+        return F.log_softmax(out, dim=0)
+
+
+def train(model, optimizer, criterion, data):
+    model.train()
+
+    for epoch in range(EPOCHS):
+        epoch_loss = 0
+        for x, y in tqdm(data):
+            optimizer.zero_grad()
+
+            prediction = model.forward(x)
+            loss = criterion(prediction, y)
+            loss.backward()
+            epoch_loss += loss.item()
+            optimizer.step()
+        print(f"epoch {epoch+1}: {epoch_loss/len(data)}")
+
+
+def test(model, data):
+    model.eval()
+    count = 0
+    for x, y in data:
+        prediction = model.forward(x)
+        prediction = torch.argmax(prediction)
+        if prediction == y:
+            count += 1
+
+    print("accuracy", count / len(data) * 100)
+
+
+def get_stats(data):
+    return Counter(map(lambda x: int(x[1]), data))
+
+
+def load_data():
+    input_path = "unitary-data-{DATASET_SIZE}.json"
+    if path.exists(input_path):
+        with open(input_path, "r") as f:
+            data = json.load(f)
+        return data
+    else:
+        unitaries = get_unitaries(DATASET_SIZE, 3)
+        non_unitaries = get_non_unitaries(DATASET_SIZE, 3)
+        data = [[unitary, 1] for unitary in unitaries]
+        data.extend([[non_unitary, 0] for non_unitary in non_unitaries])
+        with open(input_path, "w") as f:
+            json.dump(data, f)
+
+        return data
+
+
+def process_data(data):
+    return [(torch.tensor(x), torch.tensor(y)) for x, y in data]
+
+
+"""
+Main function and global parameters
+"""
+
+EPOCHS = 10
+DATASET_SIZE = 1000
 
 
 def main():
-    pass
+    data = load_data()
+    data = process_data(data)
+
+    random.shuffle(data)
+    split_ratio = 0.7
+    split_size = int(split_ratio * len(data))
+
+    train_data = data[:split_size]
+    test_data = data[split_size:]
+
+    model = ANNModel(data[0][0].shape[0], 8, 2)
+    optimizer = Adam(model.parameters(), lr=1e-3)
+    criterion = nn.NLLLoss()
+    train(model, optimizer, criterion, train_data)
+    test(model, test_data)
+
+    print("Test data y distribution", get_stats(test_data))
 
 
 if __name__ == "__main__":

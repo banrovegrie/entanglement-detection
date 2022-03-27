@@ -2,6 +2,7 @@ from qutip import *
 import numpy as np
 from matplotlib import pyplot as plt
 from cirq.linalg import is_unitary
+import torch
 
 
 def sign():
@@ -36,7 +37,7 @@ def get_non_unitaries(num: int, n) -> list:
     non_unitary_data = []
 
     for _ in range(num):
-        nu = make_matrix()
+        nu = make_matrix(n)
         if is_unitary(nu):
             num += 1
             continue
@@ -44,5 +45,11 @@ def get_non_unitaries(num: int, n) -> list:
     return non_unitary_data
 
 
-print(get_unitaries(1, 3))
-print(get_non_unitaries(1, 3))
+# print(get_unitaries(10, 3))
+# print(get_non_unitaries(10, 3))
+# with open("dump.txt", "w") as f:
+#     unitaries = get_unitaries(10000, 3)
+#     non_unitaries = get_non_unitaries(10000, 3)
+
+#     data = [(unitary, torch.tensor(1)) for unitary in unitaries]
+#     data.extend([(non_unitary, torch.tensor(0)) for non_unitary in non_unitaries])
