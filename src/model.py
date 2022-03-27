@@ -87,7 +87,7 @@ def get_stats(data):
 
 
 def load_data():
-    input_path = "unitary-data-{DATASET_SIZE}.json"
+    input_path = f"unitary-data-{DATASET_SIZE}.json"
     if path.exists(input_path):
         with open(input_path, "r") as f:
             data = json.load(f)
