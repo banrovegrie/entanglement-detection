@@ -1,5 +1,4 @@
-### Todo list
-
+### Todo list 
 - [ ]  Reading background
     - [ ]  2xd → Confirm the solution
     - [x]  3x3 → Has it been solved? Not solved
@@ -14,7 +13,6 @@
 
 
 ### Tasks
-
 - [ ] Supervised learning
     - [x]  Write naive model
     - [x]  Unitary classifier  
