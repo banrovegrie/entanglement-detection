@@ -87,18 +87,19 @@ def get_stats(data):
 
 
 def load_data():
-    input_path = f"separable-{MATRIX_SIZE}x{MATRIX_SIZE}-data-{DATASET_SIZE}.json"
+    input_path = f"separable-data-{DATASET_SIZE}.json"
     if path.exists(input_path):
         with open(input_path, "r") as f:
-            data = json.load(f)
+            data = np.load(f)
         return data
     else:
-        separable = get_separable(DATASET_SIZE, MATRIX_SIZE)
-        entangled = get_entangled(DATASET_SIZE, MATRIX_SIZE)
+        separable = get_separable(DATASET_SIZE)
+        entangled = get_entangled(DATASET_SIZE)
         data = [[i, 1] for i in separable]
         data.extend([[i, 0] for i in entangled])
-        with open(input_path, "w") as f:
-            json.dump(data, f)
+        # with open(input_path, "w") as f:
+        #     data = np.array(data)
+        #     data.dump(f)
 
         return data
 
@@ -113,7 +114,7 @@ Main function and global parameters
 
 EPOCHS = 10
 DATASET_SIZE = 1000
-MATRIX_SIZE = 5
+# MATRIX_SIZE = 5
 
 
 def main():
