@@ -20,7 +20,20 @@ def make_matrix(n=2**num_qubits):
     return matrix
 
 
+def validate(matrix):
+    # Write validation for matrices.
+    # Requirement is to check if this matrix is
+    # a valid density matrix.
+
+    # The following is not a good metric:
+    # print(np.trace(matrix))
+    # if abs(np.trace(matrix) - 1) > 1e-2:
+    #     exit(0)
+    return matrix
+
+
 def embed(matrix):
+    validate(matrix)
     flattened = (np.array(matrix).flatten()).tolist()
     embedding = []
     for i in flattened:
@@ -33,7 +46,8 @@ def get_separable(num: int, n=2**num_qubits, l=10):
     for _ in range(num):
         dm_set = []
         for i in range(num_qubits):
-            dm_set.append(np.array([np.array(qutip.rand_dm(2)) for _ in range(l)]))
+            dm = np.array([validate(np.array(qutip.rand_dm(2))) for _ in range(l)])
+            dm_set.append(dm)
 
         prob = np.array([random.random() for _ in range(l)])
         prob = prob / np.sum(prob)
@@ -66,7 +80,8 @@ def make_mixed_dm(pure_dm, n=2**num_qubits):
 def get_entangled(num: int, n=2**num_qubits):
     entangled_dms = []
     for _ in range(num):
-        pure_entangled_dm = make_circuit()
+        pure_entangled_dm = validate(make_circuit())
         mixed_entangled_dm = make_mixed_dm(pure_entangled_dm)
         entangled_dms.append(embed(mixed_entangled_dm))
+    print("works")
     return entangled_dms
