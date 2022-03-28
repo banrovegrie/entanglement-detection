@@ -6,9 +6,10 @@
 - [ ]  Entanglement revision
     - [ ]  Entanglement measure → Why not solved entanglement detection?
     - [ ]  QI for entropy stuff
-    - [ ]  Witness
+    - [x]  Witness
+    - [ ]  Why Tr(W rho) >= 0 and < 0 across the hyperplane set by W
 - [ ]  Find if the map is biased → one closed set or not?
-- [ ]  Separability
+- [x]  Separability
 - [ ]  Compare CV algorithms for the density matrix
 
 
@@ -16,9 +17,10 @@
 - [ ] Supervised learning
     - [x]  Write naive model
     - [x]  Unitary classifier  
-    - [ ]  Data for separable vs entangled
+    - [x]  Data for separable vs entangled
+    - [ ]  Verify entanglement classifier
     - [ ]  Data for absolutely separable state classifier
-    - [ ]  Mapping density matrix → vector (embedding)
+    - [x]  Mapping density matrix → vector (embedding)
     - [ ]  Write better models (if required)
     - [ ]  Put mix(ture) in different models
 - [ ]  Use extra criteria for creating features (like entanglement measures)
