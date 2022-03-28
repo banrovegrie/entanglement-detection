@@ -87,21 +87,13 @@ def get_stats(data):
 
 
 def load_data():
-    input_path = f"separable-data-{DATASET_SIZE}.json"
-    if path.exists(input_path):
-        with open(input_path, "r") as f:
-            data = np.load(f)
-        return data
-    else:
-        separable = get_separable(DATASET_SIZE)
-        entangled = get_entangled(DATASET_SIZE)
-        data = [[i, 1] for i in separable]
-        data.extend([[i, 0] for i in entangled])
-        # with open(input_path, "w") as f:
-        #     data = np.array(data)
-        #     data.dump(f)
+    separable = get_separable(DATASET_SIZE)
+    entangled = get_entangled(DATASET_SIZE)
 
-        return data
+    data = [[i, 1] for i in separable]
+    data.extend([[i, 0] for i in entangled])
+
+    return data
 
 
 def process_data(data):

@@ -3,6 +3,8 @@ import numpy as np
 import random
 from matplotlib import pyplot as plt
 import torch
+from cirq.linalg.predicates import is_unitary
+from cirq.qis.states import validate_density_matrix
 import json
 from entanglement_generator import make_circuit
 from params import num_qubits
@@ -20,21 +22,19 @@ def make_matrix(n=2**num_qubits):
     return matrix
 
 
-def validate(matrix):
-    # Write validation for matrices.
-    # Requirement is to check if this matrix is
-    # a valid density matrix.
+def embed(matrix, n=2**num_qubits):
+    # Validate and embed required density matrix.
+    validate_density_matrix(matrix, qid_shape=n, atol=1e-2)
 
-    # The following is not a good metric:
-    # print(np.trace(matrix))
-    # if abs(np.trace(matrix) - 1) > 1e-2:
-    #     exit(0)
-    return matrix
+    # Flatten and embed the density matrix by taking care that,
+    # it has (n - 1) diagonal values and upper traingular matrix.
+    matrix = matrix.tolist()
+    flattened = []
+    for i in range(n):
+        for j in range(n):
+            if (i < j) or (i == j and i != 0):
+                flattened.append(matrix[i][j])
 
-
-def embed(matrix):
-    validate(matrix)
-    flattened = (np.array(matrix).flatten()).tolist()
     embedding = []
     for i in flattened:
         embedding.extend([i.real, i.imag])
@@ -46,7 +46,7 @@ def get_separable(num: int, n=2**num_qubits, l=10):
     for _ in range(num):
         dm_set = []
         for i in range(num_qubits):
-            dm = np.array([validate(np.array(qutip.rand_dm(2))) for _ in range(l)])
+            dm = np.array([np.array(qutip.rand_dm(2)) for _ in range(l)])
             dm_set.append(dm)
 
         prob = np.array([random.random() for _ in range(l)])
@@ -56,22 +56,22 @@ def get_separable(num: int, n=2**num_qubits, l=10):
         for i in range(l):
             tensor = dm_set[0][i]
             for j in range(1, num_qubits):
-                tensor = np.tensordot(tensor, dm_set[j][i], axes=0)
+                tensor = np.kron(tensor, dm_set[j][i])
             tensor = prob[i] * tensor
-            separable_dm = np.add(separable_dm, tensor.reshape(n, n))
+            separable_dm = np.add(separable_dm, tensor)
         separable_dms.append(embed(separable_dm))
     return separable_dms
 
 
 def make_mixed_dm(pure_dm, n=2**num_qubits):
-    if random.choice([False, True, True, True, True, True, True]):
+    if random.choice([True, True, True, True, True, True, True]):
         # Here, we shall apply random local unitaries on
         # the pure entangled state to produce mixed entangled states.
         u = [np.array(qutip.rand_unitary(2)) for i in range(num_qubits)]
         tensor = u[0]
         for i in range(1, num_qubits):
-            tensor = np.tensordot(tensor, u[i], axes=0)
-        entangled_dm = tensor.reshape(n, n) @ pure_dm
+            tensor = np.kron(tensor, u[i])
+        entangled_dm = tensor @ pure_dm @ tensor.T.conj()
         return entangled_dm
     else:
         return pure_dm
@@ -80,8 +80,7 @@ def make_mixed_dm(pure_dm, n=2**num_qubits):
 def get_entangled(num: int, n=2**num_qubits):
     entangled_dms = []
     for _ in range(num):
-        pure_entangled_dm = validate(make_circuit())
+        pure_entangled_dm = make_circuit()
         mixed_entangled_dm = make_mixed_dm(pure_entangled_dm)
         entangled_dms.append(embed(mixed_entangled_dm))
-    print("works")
     return entangled_dms

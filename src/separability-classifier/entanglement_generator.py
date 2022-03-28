@@ -37,5 +37,5 @@ def make_circuit():
     # Now, the entangled state obtained is a pure state.
     # First, we convert it into a density matrix and then,
     # we further apply local unitaries to get mixed entangled states.
-    entangled_dm = np.outer(entangled_state, entangled_state.conj())
+    entangled_dm = entangled_state.reshape(8, 1).conj() @ entangled_state.reshape(1, 8)
     return entangled_dm
