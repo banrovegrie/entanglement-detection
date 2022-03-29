@@ -41,6 +41,15 @@ def embed(matrix, n=2**num_qubits):
     return embedding
 
 
+def cnnembed(matrix, n=2**num_qubits):
+    validate_density_matrix(matrix, qid_shape=n, atol=1e-2)
+
+    # Here, we pass the matrix embedded for CNN.
+    matrix = matrix.flatten()
+    embedding = np.array([[i.real, i.imag] for i in matrix]).reshape(n, n, 2)
+    return embedding
+
+
 def get_separable(num: int, n=2**num_qubits, l=10):
     separable_dms = []
     for _ in range(num):
@@ -59,7 +68,7 @@ def get_separable(num: int, n=2**num_qubits, l=10):
                 tensor = np.kron(tensor, dm_set[j][i])
             tensor = prob[i] * tensor
             separable_dm = np.add(separable_dm, tensor)
-        separable_dms.append(embed(separable_dm))
+        separable_dms.append(cnnembed(separable_dm))
     return separable_dms
 
 
@@ -82,5 +91,5 @@ def get_entangled(num: int, n=2**num_qubits):
     for _ in range(num):
         pure_entangled_dm = make_circuit()
         mixed_entangled_dm = make_mixed_dm(pure_entangled_dm)
-        entangled_dms.append(embed(mixed_entangled_dm))
+        entangled_dms.append(cnnembed(mixed_entangled_dm))
     return entangled_dms
