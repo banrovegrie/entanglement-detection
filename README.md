@@ -13,15 +13,16 @@
 - [ ]  Machine Learning review
     - [ ]  Supervised ML models
     - [ ]  Unsupervised ML models 
-    - [ ]  Compare CV algorithms for the density matrix
+    - [x]  Compare CV algorithms for the density matrix
     - [ ]  Study convex optimisation
-    - [ ]  Variational circuits for state generation
+    - [x]  Variational circuits for state generation
 
 ### Tasks
 - [x]  Write naive model
 - [x]  Unitary classifier  
 - [x]  Data for separable vs entangled
-- [x]  Verify entanglement classifier
+- [ ]  Verify entanglement classifier
+- [ ]  Generate entangled matrices
 - [ ]  Data for absolutely separable state classifier
 - [x]  Mapping density matrix → vector (embedding)
 - [ ]  Write better models (if required)
