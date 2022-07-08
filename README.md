@@ -1,6 +1,6 @@
 ### Study
 - [ ]  Literature survey
-    - [ ]  2xd → Confirm the solution
+    - [x]  2xd → Confirm the solution
     - [x]  3x3 → Has it been solved? Not solved
     - [ ]  Maps for constructing absolutely separable states
     - [ ]  Find if the ABSEP channel is biased → one closed set or not?
