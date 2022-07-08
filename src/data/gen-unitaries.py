@@ -20,4 +20,4 @@ def get_unitaries(num: int, n: int) -> list:
     return unitary_data
 
 
-print(get_unitaries(1e5, 3))
+print(get_unitaries(3, 3))
