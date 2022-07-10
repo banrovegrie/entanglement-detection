@@ -1,16 +1,16 @@
 ### Study
-- [ ]  Literature survey
+- Literature survey
     - [x]  $2\otimes d$: confirm the solution
     - [x]  $3\otimes 3$: has it been solved? Not solved
     - [ ]  Maps for constructing absolutely separable states
     - [ ]  Find if the ABSEP channel is biased: one closed set or not?
-- [ ]  Entanglement review
+- Entanglement review
     - [ ]  Entanglement measure: why not solved entanglement detection?
     - [ ]  QI for entropy stuff
     - [x]  Witness
     - [ ]  How to create witnesses?
     - [x]  SEP problem is NP-hard
-- [ ]  Machine Learning review
+- Machine Learning review
     - [ ]  Supervised ML models
     - [ ]  Unsupervised ML models 
     - [x]  Compare CV algorithms for the density matrix
