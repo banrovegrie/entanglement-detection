@@ -74,6 +74,3 @@ def get_random_states(num: int, n: int, m: int) -> np.ndarray:
         # print(i)
     return np.array(random_states)
 
-
-# print(get_separable_states(2, 3, 3))
-# print(get_random_states(2, 3, 3))
