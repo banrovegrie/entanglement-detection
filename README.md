@@ -32,8 +32,8 @@
 ### Meeting notes
 - [ ]  Generation of data for absolutely separable states (validation)
     - Use random unitaries to generate data with high confidence
-    - Compare deviations wrt the known $2 \times 2$ case
-    - Try for $3 \times 3$ case (figure out if $\exists$ entangled Absolutely PPT states)
+    - Compare deviations wrt the known $2 \otimes d$ cases
+    - Try for $3 \otimes 3$ case (figure out if there exists entangled Absolutely PPT states)
 - [x]  Implementing NN for unsupervised learning
 - [ ]  Figure out how to get a description of the classification boundary from the classifier
 - [ ]  Further work on Implementation of a classifier for SEP based on extendibility (based on semidefinite programming definition of the problem)
