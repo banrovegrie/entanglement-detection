@@ -5,14 +5,6 @@ from matplotlib import pyplot as plt
 from cirq.linalg import is_unitary
 from cirq.qis.states import validate_density_matrix
 
-"""
-We are trying to create separable states of order 3 \otimes 3.
-Procedure:
-- Create random density matrices of size 3x3.
-- Take random sum of tensor product of random a, b \in 3x3 dm-set
-with a certain random probability associated with it.
-"""
-
 
 def embed(matrix: np.ndarray) -> list:
     x, y = matrix.shape
@@ -54,8 +46,6 @@ def get_separable_state(n: int, m: int, max_len: int = 50) -> np.ndarray:
     for i in range(l):
         tensor = np.kron(np.array(qutip.rand_dm(n)), np.array(qutip.rand_dm(m)))
         separable_state = np.add(separable_state, prob[i] * tensor)
-
-    # print(separable_state, "\n\n", separable_state.shape, "\n\n")
     return separable_state
 
 
@@ -73,4 +63,3 @@ def get_random_states(num: int, n: int, m: int) -> np.ndarray:
         random_states.append(embed(np.array(qutip.rand_dm(n * m))))
         # print(i)
     return np.array(random_states)
-
